@@ -66,4 +66,7 @@
     <!-- Horizon Light -->
     <java-symbol type="integer" name="config_AmbientPulseLightColor" />
 
+    <!-- Battery Leds -->
+    <java-symbol type="bool" name="config_intrusiveBatteryLed" />
+
 </resources>
