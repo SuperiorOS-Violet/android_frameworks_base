@@ -290,6 +290,8 @@ public interface CentralSurfaces extends Dumpable, ActivityStarter, LifecycleOwn
 
     void postAnimateOpenPanels();
 
+    void toggleSettingsPanel();
+
     boolean isExpandedVisible();
 
     boolean isPanelExpanded();
