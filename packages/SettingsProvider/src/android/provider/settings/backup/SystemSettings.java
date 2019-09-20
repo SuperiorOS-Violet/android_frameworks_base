@@ -92,5 +92,6 @@ public class SystemSettings {
         Settings.System.ENABLE_RIPPLE_EFFECT,
         Settings.System.USE_OLD_MOBILETYPE,
         Settings.System.FULLSCREEN_GESTURES,
+        Settings.System.NAVIGATION_BAR_INVERSE,
     };
 }
