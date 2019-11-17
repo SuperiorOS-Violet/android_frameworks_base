@@ -98,12 +98,12 @@ public class NotificationShadeWindowViewController {
 
     private boolean mIsTrackingBarGesture = false;
 
-    private boolean mDoubleTapEnabledNative;
-
     private static final String DOUBLE_TAP_SLEEP_GESTURE =
             "system:" + Settings.System.DOUBLE_TAP_SLEEP_GESTURE;
     private boolean mDoubleTapToSleepEnabled;
     private int mQuickQsOffsetHeight;
+
+    private boolean mDoubleTapEnabledNative;
 
     @Inject
     public NotificationShadeWindowViewController(
@@ -165,6 +165,9 @@ public class NotificationShadeWindowViewController {
             AmbientDisplayConfiguration configuration =
                     new AmbientDisplayConfiguration(mView.getContext());
             switch (key) {
+                case Settings.Secure.DOUBLE_TAP_TO_WAKE:
+                    mDoubleTapEnabledNative = TunerService.parseIntegerSwitch(newValue, false);
+                    break;
                 case Settings.Secure.DOZE_DOUBLE_TAP_GESTURE:
                     mDoubleTapEnabled = configuration.doubleTapGestureEnabled(
                             UserHandle.USER_CURRENT);
@@ -172,19 +175,14 @@ public class NotificationShadeWindowViewController {
                 case Settings.Secure.DOZE_TAP_SCREEN_GESTURE:
                     mSingleTapEnabled = configuration.tapGestureEnabled(UserHandle.USER_CURRENT);
                     break;
-                case Settings.Secure.DOUBLE_TAP_TO_WAKE:
-                    mDoubleTapEnabledNative = Settings.Secure.getIntForUser(mView.getContext().getContentResolver(),
-                            Settings.Secure.DOUBLE_TAP_TO_WAKE, 0, UserHandle.USER_CURRENT) == 1;
-                    break;
                 case DOUBLE_TAP_SLEEP_GESTURE:
                     mDoubleTapToSleepEnabled = TunerService.parseIntegerSwitch(newValue, true);
                     break;
             }
         };
         mTunerService.addTunable(tunable,
-                Settings.Secure.DOZE_DOUBLE_TAP_GESTURE,
-                Settings.Secure.DOZE_TAP_SCREEN_GESTURE,
                 Settings.Secure.DOUBLE_TAP_TO_WAKE,
+                Settings.Secure.DOZE_DOUBLE_TAP_GESTURE,
                 Settings.Secure.DOZE_TAP_SCREEN_GESTURE,
                 DOUBLE_TAP_SLEEP_GESTURE);
         mQuickQsOffsetHeight = mView.getResources().getDimensionPixelSize(
