@@ -5712,6 +5712,12 @@ public final class Settings {
          * @hide
          */
         public static final String SHOW_VOLTE_ICON = "show_volte_icon";
+
+        /**
+         * Whether to show VoWiFi icon or not
+         * @hide
+         */
+        public static final String SHOW_VOWIFI_ICON = "show_vowifi_icon";
         
         /**
          * These are all public system settings
