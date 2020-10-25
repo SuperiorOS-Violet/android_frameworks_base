@@ -326,6 +326,9 @@
     <!-- To broadcast status of the GameSpaceManager -->
     <uses-permission android:name="android.permission.MANAGE_GAME_MODE" />
 
+    <!-- Pulse -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
     <!-- To read safety center status -->
     <uses-permission android:name="android.permission.READ_SAFETY_CENTER_STATUS" />
 
