@@ -5689,6 +5689,13 @@ public final class Settings {
          */
         public static final String STATUS_BAR_QUICK_QS_PULLDOWN = "qs_quick_pulldown";
 
+        /** Whether to show ambient or lockscreen if AoD is disabled
+         * and we do a wake gesture like lift to wake or double tap
+         *
+         * @hide
+         */
+        public static final String AMBIENT_WAKE_GESTURES = "ambient_wake_gestures";
+
         /**
          * Enable statusbar double tap gesture to put device to sleep
          * @hide
