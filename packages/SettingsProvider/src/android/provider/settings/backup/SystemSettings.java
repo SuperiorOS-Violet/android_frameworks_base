@@ -90,5 +90,6 @@ public class SystemSettings {
         Settings.System.KEYGAURD_MEDIA_ART,
         Settings.System.LOCKSCREEN_BATTERY_INFO,
         Settings.System.ENABLE_RIPPLE_EFFECT,
+        Settings.System.COMBINED_STATUS_BAR_SIGNAL_ICONS,
     };
 }

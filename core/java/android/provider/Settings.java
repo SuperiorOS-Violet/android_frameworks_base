@@ -5708,6 +5708,11 @@ public final class Settings {
          */
         public static final String VOLTE_VOWIFI_OVERRIDE = "volte_vowifi_override";
 
+        /**
+         * Whether to combine wifi and signal icons
+         * @hide
+         */
+        public static final String COMBINED_STATUS_BAR_SIGNAL_ICONS = "combined_status_bar_signal_icons";
 
         /**
          * IMPORTANT: If you add a new public settings you also have to add it to
@@ -5873,6 +5878,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(VOLTE_ICON_STYLE);
             PRIVATE_SETTINGS.add(VOWIFI_ICON_STYLE);
             PRIVATE_SETTINGS.add(VOLTE_VOWIFI_OVERRIDE);
+            PRIVATE_SETTINGS.add(COMBINED_STATUS_BAR_SIGNAL_ICONS);
         }
 
         /**
