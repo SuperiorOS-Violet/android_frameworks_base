@@ -125,11 +125,11 @@ open class QSTileViewImpl @JvmOverloads constructor(
     private val colorSecondaryLabelUnavailable =
         Utils.getColorAttrDefaultColor(context, com.android.internal.R.attr.textColorTertiary)
 
-    // QS Style 3
+    // QS Style 2
     private val colorActiveAlpha = Utils.applyAlpha(TILE_ALPHA, Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent))
-    private val colorInactiveAlpha = Utils.applyAlpha(INACTIVE_ALPHA, Utils.getColorAttrDefaultColor(context, R.attr.offStateColor))
+    private val colorInactiveAlpha = resources.getColor(R.color.qs_translucent_bg)
 
-    // QS Style 4
+    // QS Style 3
     private var randomColor: Random = Random()
     
     @SuppressLint("NewApi")
@@ -664,26 +664,25 @@ open class QSTileViewImpl @JvmOverloads constructor(
         return when {
             state == Tile.STATE_UNAVAILABLE || disabledByPolicy -> colorUnavailable
             state == Tile.STATE_ACTIVE -> 
-                if(qsPanelStyle == 3) 
+                if(qsPanelStyle == 2) 
                     colorActiveAlpha 
-                else if(qsPanelStyle == 4) 
+                else if(qsPanelStyle == 3) 
                     colorActiveRandom 
                 else colorActive
-            state == Tile.STATE_INACTIVE -> if(qsPanelStyle == 3 || qsPanelStyle ==4) colorInactiveAlpha else colorInactive
+            state == Tile.STATE_INACTIVE -> if(qsPanelStyle >= 1) colorInactiveAlpha else colorInactive
             else -> {
                 Log.e(TAG, "Invalid state $state")
                 0
             }
         }
     }
-
     private fun getLabelColorForState(state: Int, disabledByPolicy: Boolean = false): Int {
         return when {
             state == Tile.STATE_UNAVAILABLE || disabledByPolicy -> colorLabelUnavailable
             state == Tile.STATE_ACTIVE -> 
-                if(qsPanelStyle == 2 || qsPanelStyle ==3)
+                if(qsPanelStyle == 1 || qsPanelStyle ==2)
                     colorActive
-                else if(qsPanelStyle == 4) 
+                else if(qsPanelStyle == 3) 
                     colorLabelActiveRandom
                 else colorLabelActive
             state == Tile.STATE_INACTIVE -> colorLabelInactive
@@ -698,9 +697,9 @@ open class QSTileViewImpl @JvmOverloads constructor(
         return when {
             state == Tile.STATE_UNAVAILABLE || disabledByPolicy -> colorSecondaryLabelUnavailable
             state == Tile.STATE_ACTIVE -> 
-                if(qsPanelStyle == 2 || qsPanelStyle == 3) 
+                if(qsPanelStyle == 1 || qsPanelStyle == 2) 
                     colorActive
-                else if(qsPanelStyle == 4) 
+                else if(qsPanelStyle == 3) 
                     colorSecondaryLabelActiveRandom
                 else colorSecondaryLabelActive
             state == Tile.STATE_INACTIVE -> colorSecondaryLabelInactive
