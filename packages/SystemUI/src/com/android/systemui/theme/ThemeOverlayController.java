@@ -434,8 +434,8 @@ public class ThemeOverlayController extends CoreStartable implements Dumpable {
                 },
                 UserHandle.USER_ALL);
 
-        mSecureSettings.registerContentObserverForUser(
-                Settings.Secure.getUriFor(Settings.Secure.STATUS_BAR_BATTERY_STYLE),
+        mSystemSettings.registerContentObserverForUser(
+                Settings.System.getUriFor(Settings.System.STATUS_BAR_BATTERY_STYLE),
                 false,
                 new ContentObserver(mBgHandler) {
                     @Override
@@ -450,9 +450,9 @@ public class ThemeOverlayController extends CoreStartable implements Dumpable {
                             mDeferredThemeEvaluation = true;
                             return;
                         }
-                        boolean isCircleBattery = Settings.Secure.getIntForUser(
+                        boolean isCircleBattery = Settings.System.getIntForUser(
                                 mContext.getContentResolver(),
-                                Settings.Secure.STATUS_BAR_BATTERY_STYLE,
+                                Settings.System.STATUS_BAR_BATTERY_STYLE,
                                 0, UserHandle.USER_CURRENT) == 1;
                         if (isCircleBattery) {
                             reevaluateSystemTheme(true /* forceReload */);

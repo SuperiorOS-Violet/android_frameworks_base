@@ -15,7 +15,7 @@
  */
 package com.android.systemui.battery;
 
-import static android.provider.Settings.System.SHOW_BATTERY_PERCENT;
+import static android.provider.Settings.System.STATUS_BAR_SHOW_BATTERY_PERCENT;
 
 import static com.android.systemui.DejankUtils.whitelistIpcs;
 
@@ -303,7 +303,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
         final boolean showing = mBatteryPercentView != null;
         // TODO(b/140051051)
         final int showBatteryPercent = Settings.System.getIntForUser(
-                getContext().getContentResolver(), SHOW_BATTERY_PERCENT, 0,
+                getContext().getContentResolver(), STATUS_BAR_SHOW_BATTERY_PERCENT, 0,
                 UserHandle.USER_CURRENT);
         final boolean drawPercentInside = mShowPercentMode == MODE_DEFAULT &&
                 showBatteryPercent == 1;
@@ -413,8 +413,8 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
     }
 
     private int getBatteryStyle() {
-        return Settings.Secure.getIntForUser(getContext().getContentResolver(),
-                Settings.Secure.STATUS_BAR_BATTERY_STYLE, BATTERY_STYLE_PORTRAIT,
+        return Settings.System.getIntForUser(getContext().getContentResolver(),
+                Settings.System.STATUS_BAR_BATTERY_STYLE, BATTERY_STYLE_PORTRAIT,
                 UserHandle.USER_CURRENT);
     }
 

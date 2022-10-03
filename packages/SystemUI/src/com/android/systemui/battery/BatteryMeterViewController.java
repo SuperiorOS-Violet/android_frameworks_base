@@ -15,8 +15,8 @@
  */
 package com.android.systemui.battery;
 
-import static android.provider.Settings.Secure.STATUS_BAR_BATTERY_STYLE;
-import static android.provider.Settings.System.SHOW_BATTERY_PERCENT;
+import static android.provider.Settings.System.STATUS_BAR_BATTERY_STYLE;
+import static android.provider.Settings.System.STATUS_BAR_SHOW_BATTERY_PERCENT;
 
 import android.app.ActivityManager;
 import android.content.ContentResolver;
@@ -178,12 +178,12 @@ public class BatteryMeterViewController extends ViewController<BatteryMeterView>
 
     private void registerShowBatteryPercentObserver(int user) {
         mContentResolver.registerContentObserver(
-                Settings.System.getUriFor(SHOW_BATTERY_PERCENT),
+                Settings.System.getUriFor(STATUS_BAR_SHOW_BATTERY_PERCENT),
                 false,
                 mSettingObserver,
                 user);
         mContentResolver.registerContentObserver(
-                Settings.Secure.getUriFor(STATUS_BAR_BATTERY_STYLE),
+                Settings.System.getUriFor(STATUS_BAR_BATTERY_STYLE),
                 false,
                 mSettingObserver,
                 user);
