@@ -95,6 +95,5 @@ public class SystemSettings {
         Settings.System.NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD,
         Settings.System.ENABLE_RIPPLE_EFFECT,
         Settings.System.USE_OLD_MOBILETYPE,
-        Settings.System.DOUBLE_TAP_SLEEP_GESTURE,
     };
 }

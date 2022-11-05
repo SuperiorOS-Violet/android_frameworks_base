@@ -67,7 +67,6 @@ import android.content.pm.IPackageManager;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.database.ContentObserver;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.hardware.devicestate.DeviceStateManager;
@@ -621,7 +620,6 @@ public class CentralSurfacesImpl extends CoreStartable implements
     private boolean mIsFullscreen;
 
     boolean mCloseQsBeforeScreenOff;
-    private Handler mMainHandler;
 
     private final NotificationMediaManager mMediaManager;
     private final NotificationLockscreenUserManager mLockscreenUserManager;
@@ -680,31 +678,6 @@ public class CentralSurfacesImpl extends CoreStartable implements
 
     private final SysUiState mSysUiState;
     private final BurnInProtectionController mBurnInProtectionController;
-
-    private class CustomSettingsObserver extends ContentObserver {
-        CustomSettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        void observe() {
-            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.DOUBLE_TAP_SLEEP_GESTURE),
-                    false, this, UserHandle.USER_ALL);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            update();
-        }
-
-        public void update() {
-            if (mNotificationShadeWindowViewController != null) {
-                mNotificationShadeWindowViewController.updateSettings();
-            }
-        }
-    }
-
-    private CustomSettingsObserver mCustomSettingsObserver;
 
     /**
      * Public constructor for CentralSurfaces.
@@ -1145,10 +1118,6 @@ public class CentralSurfacesImpl extends CoreStartable implements
                 (requestTopUi, componentTag) -> mMainExecutor.execute(() ->
                         mNotificationShadeWindowController.setRequestTopUi(
                                 requestTopUi, componentTag))));
-
-        mCustomSettingsObserver = new CustomSettingsObserver(mMainHandler);
-        mCustomSettingsObserver.observe();
-        mCustomSettingsObserver.update();
     }
 
     private void onFoldedStateChanged(boolean isFolded, boolean willGoToSleep) {

@@ -51,7 +51,6 @@ import android.app.Fragment;
 import android.app.Notification;
 import android.app.StatusBarManager;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -71,7 +70,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Trace;
-import android.os.UserHandle;
 import android.os.UserManager;
 import android.os.VibrationEffect;
 import android.provider.Settings;
@@ -80,7 +78,6 @@ import android.transition.TransitionManager;
 import android.util.IndentingPrintWriter;
 import android.util.Log;
 import android.util.MathUtils;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -544,8 +541,6 @@ public class NotificationPanelViewController extends PanelViewController {
     private NotificationShadeDepthController mDepthController;
     private int mDisplayId;
 
-    private GestureDetector mDoubleTapGestureListener;
-
     /**
      * Cache the resource id of the theme to avoid unnecessary work in onThemeChanged.
      *
@@ -720,7 +715,6 @@ public class NotificationPanelViewController extends PanelViewController {
     };
 
     private boolean mBlockedGesturalNavigation = false;
-    private int mStatusBarHeaderHeight;
 
     @Inject
     public NotificationPanelViewController(NotificationPanelView view,
@@ -891,16 +885,6 @@ public class NotificationPanelViewController extends PanelViewController {
         });
         mBottomAreaShadeAlphaAnimator.setDuration(160);
         mBottomAreaShadeAlphaAnimator.setInterpolator(Interpolators.ALPHA_OUT);
-        mDoubleTapGestureListener = new GestureDetector(mView.getContext(),
-                new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onDoubleTap(MotionEvent event) {
-                final PowerManager pm = (PowerManager) mView.getContext().getSystemService(
-                        Context.POWER_SERVICE);
-                pm.goToSleep(event.getEventTime());
-                return true;
-            }
-        });
         mEntryManager = notificationEntryManager;
         mConversationNotificationManager = conversationNotificationManager;
         mAuthController = authController;
@@ -1106,8 +1090,6 @@ public class NotificationPanelViewController extends PanelViewController {
         mLockscreenNotificationQSPadding = mResources.getDimensionPixelSize(
                 R.dimen.notification_side_paddings);
         mUdfpsMaxYBurnInOffset = mResources.getDimensionPixelSize(R.dimen.udfps_burn_in_offset_y);
-        mStatusBarHeaderHeight = mResources.getDimensionPixelSize(
-                R.dimen.status_bar_height);
     }
 
     private void updateViewControllers(KeyguardStatusView keyguardStatusView,
@@ -4284,21 +4266,6 @@ public class NotificationPanelViewController extends PanelViewController {
                     return false;
                 }
 
-                if (mBarState == StatusBarState.KEYGUARD && !mPulsing && !mDozing &&
-                        Settings.Secure.getIntForUser(mView.getContext().getContentResolver(),
-                        Settings.Secure.DOUBLE_TAP_TO_WAKE, 0, UserHandle.USER_CURRENT) == 1) {
-                    mDoubleTapGestureListener.onTouchEvent(event);
-                } else if (!mQsExpanded
-                        && mDoubleTapToSleepEnabled
-                        && event.getY() < mStatusBarHeaderHeight) {
-                    mDoubleTapGestureListener.onTouchEvent(event);
-                    // quick pulldown can trigger those values
-                    // on double tap - so reset them
-                    mQsExpandImmediate = false;
-                    requestPanelHeightUpdate();
-                    setListening(false);
-                }
-
                 // Make sure the next touch won't the blocked after the current ends.
                 if (event.getAction() == MotionEvent.ACTION_UP
                         || event.getAction() == MotionEvent.ACTION_CANCEL) {
@@ -5279,10 +5246,6 @@ public class NotificationPanelViewController extends PanelViewController {
                     false /* delayed */,
                     1.0f /* speedUpFactor */);
         }
-    }
-
-    public void updateDoubleTapToSleep(boolean doubleTapToSleepEnabled) {
-        mDoubleTapToSleepEnabled = doubleTapToSleepEnabled;
     }
 
     @SysUISingleton
